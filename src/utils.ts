@@ -1,4 +1,3 @@
-import assert from './_internal';
 import {
   COMPLETE_HANGUL_END_CHARCODE,
   COMPLETE_HANGUL_START_CHARCODE,
