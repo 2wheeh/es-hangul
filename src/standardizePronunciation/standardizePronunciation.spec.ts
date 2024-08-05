@@ -351,4 +351,30 @@ describe('standardizePronunciation', () => {
       ).toBe('널게');
     });
   });
+
+  describe('자모 읽기 음가 모드', () => {
+    it.each`
+      hangulAlphabet | completeHangulAlphabet
+      ${'ㄱㄴㄷ'}    | ${'그느드'}
+      ${'ㅃㄺ'}      | ${'쁘르그'}
+      ${'ㅠㅠ'}      | ${'유유'}
+    `('$hangulAlphabet => $completeHangulAlphabet', ({ hangulAlphabet, completeHangulAlphabet }) => {
+      expect(standardizePronunciation(hangulAlphabet, { hardConversion: false, complete: 'phonetic' })).toBe(
+        completeHangulAlphabet
+      );
+    });
+  });
+
+  describe('자모 읽기 명칭 모드', () => {
+    it.each`
+      hangulAlphabet | completeHangulAlphabet
+      ${'ㄱㄴㄷ'}    | ${'기영니은디귿'}
+      ${'ㅃㄺ'}      | ${'쌍비음니을기역'}
+      ${'ㅠㅠ'}      | ${'유유'}
+    `('$hangulAlphabet => $completeHangulAlphabet', ({ hangulAlphabet, completeHangulAlphabet }) => {
+      expect(standardizePronunciation(hangulAlphabet, { hardConversion: false, complete: 'letterName' })).toBe(
+        completeHangulAlphabet
+      );
+    });
+  });
 });

@@ -64,6 +64,8 @@ describe('romanize', () => {
     expect(romanize('가나다라ㅁㅂㅅㅇ')).toBe('ganadarambs');
     expect(romanize('ㅏ')).toBe('a');
     expect(romanize('ㅘ')).toBe('wa');
+    expect(romanize('ㄳ')).toBe('gs');
+    expect(romanize('ㅃ')).toBe('pp');
   });
 
   it('특수문자는 로마자 표기로 변경하지 않는다', () => {
@@ -77,5 +79,31 @@ describe('romanize', () => {
     expect(romanize('안녕하세요 es-hangul')).toBe('annyeonghaseyo es-hangul');
     expect(romanize('한국은korea')).toBe('hangugeunkorea');
     expect(romanize('고양이는cat')).toBe('goyangineuncat');
+  });
+
+  describe('자모 읽기 음가 phonetic 모드', () => {
+    it.each`
+      hangulAlphabet | romanizedHangul
+      ${'ㄱㄴㄷ'}    | ${'geuneudeu'}
+      ${'ㅋㅋ'}      | ${'keukeu'}
+      ${'ㅃㄺ'}      | ${'ppeureugeu'}
+      ${'ㅠㅠ'}      | ${'yuyu'}
+      ${'ㅘ'}        | ${'wa'}
+    `('$hangulAlphabet => $romanizedHangul', ({ hangulAlphabet, romanizedHangul }) => {
+      expect(romanize(hangulAlphabet, 'phonetic')).toBe(romanizedHangul);
+    });
+  });
+
+  describe('자모 읽기 명칭 letterName 모드', () => {
+    it.each`
+      hangulAlphabet | romanizedHangul
+      ${'ㄱㄴㄷ'}    | ${'giyeongnieundigeut'}
+      ${'ㅋㅋ'}      | ${'kieukkieuk'}
+      ${'ㅃㄺ'}      | ${'ssangbieumnieulgiyeok'}
+      ${'ㅠㅠ'}      | ${'yuyu'}
+      ${'ㅘ'}        | ${'wa'}
+    `('$hangulAlphabet => $romanizedHangul', ({ hangulAlphabet, romanizedHangul }) => {
+      expect(romanize(hangulAlphabet, 'letterName')).toBe(romanizedHangul);
+    });
   });
 });
